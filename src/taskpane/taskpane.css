@@ -62,19 +62,61 @@
  }
  
  .ms-welcome__action.ms-Button--hero {
-     margin-top: 30px;
+     margin-top: 10px;
  }
  
 .ms-Button.ms-Button--hero .ms-Button-label {
   color: #0078d7;
+  cursor: pointer;
+  border: 1px solid #bebebe;
+  background: #eeeeee;
+  padding: 2px 17px 7px 17px;
+  border-radius: 15px;
+  font-size:18px;
 }
 
 .ms-Button.ms-Button--hero:hover .ms-Button-label,
 .ms-Button.ms-Button--hero:focus .ms-Button-label{
-  color: #005a9e;
-  cursor: pointer;
+  color: #0078d7; 
+  /* text-decoration: underline; */
+  /* cursor: pointer; */
+  border: 2px solid #999999;
+  background: #eeeeee;
+  padding: 2px 17px 7px 17px;
+  border-radius: 15px;
+  font-size:18px;
 }
 
 b {
     font-weight: bold;
+}
+
+.dot {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #4b9cdb;
+}
+
+.container .dot:nth-last-child(1) {
+  animation: jumpingAnimation 0.6s 0.1s ease-in infinite;
+}
+.container .dot:nth-last-child(2) {
+  animation: jumpingAnimation 0.6s 0.2s ease-in infinite;
+}
+.container .dot:nth-last-child(3) {
+  animation: jumpingAnimation 0.6s 0.3s ease-in infinite;
+}
+
+@keyframes jumpingAnimation {
+  0 {
+    transform: translate3d(0, 0,0);
+  }
+  50% {
+    transform: translate3d(0, 15px,0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
