@@ -31,27 +31,32 @@ export async function run() {
 
   toggleJumpingDots("show");
 
-  await item.body.getAsync(Office.CoercionType.Text, (asyncResult) => {
-    if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
-      setBody(asyncResult.value);
+  try {
+    await item.body.getAsync(Office.CoercionType.Text, (asyncResult) => {
+      if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+        setBody(asyncResult.value);
+      } else {
+        document.getElementById("item-body").innerHTML = "<b>Body:</b> <br/>" + "Error";
+      }
+    });
+
+    if (body != "") {
+      document.getElementById("item-subject").innerHTML = "<h2>Message</h2><b>Subject: </b>" + item.subject + "<br/><b>From: </b>" + item.from.emailAddress;
+      document.getElementById("item-body").innerHTML = (
+        await runCompletion(
+          "Please provide key points and actions for the following and format using HTML H2 headings for Key Points and Actions sections: " + body
+        )
+      ).text;
     } else {
-      document.getElementById("item-body").innerHTML = "<b>Body:</b> <br/>" + "Error";
+      document.getElementById("item-body").innerHTML =
+        // eslint-disable-next-line prettier/prettier
+        "<h2>Key Points & Actions:</h2> <br/>" + "Body empty";
     }
-  });
-
-  if (body != "") {
-    document.getElementById("item-subject").innerHTML = "<h2>Subject</h2>" + item.subject;
-    document.getElementById("item-body").innerHTML = (
-      await runCompletion(
-        "Please provide key points and actions as separate bulleted HTML sections with H2 headings: " + body
-      )
-    ).text;
-  } else {
+  } catch (error) {
     document.getElementById("item-body").innerHTML =
-      // eslint-disable-next-line prettier/prettier
-      "<h2>Key Points & Actions:</h2> <br/>" + "Body empty";
+    // eslint-disable-next-line prettier/prettier
+    "<h2>Exception:</h2> <br/>" + error.value;
   }
-
   toggleJumpingDots("hide");
 }
 
